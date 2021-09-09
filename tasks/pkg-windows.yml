@@ -39,12 +39,12 @@
     state: absent
   when: not datadog_skip_install
 
-#- name: Download windows datadog agent
-#  win_get_url:
-#    url: "{{ dd_download_url }}"
-#    dest: '%TEMP%\ddagent.msi'
-#  register: download_msi_result
-#  when: (not datadog_skip_install) and (not ansible_check_mode)
+- name: Download windows datadog agent
+  win_get_url:
+    url: "{{ dd_download_url }}"
+    dest: '%TEMP%\ddagent.msi'
+  register: download_msi_result
+  when: (not datadog_skip_install) and (not ansible_check_mode)
 
 - name: Create Binary directory root (if not default)
   win_file:
@@ -67,15 +67,15 @@
   debug:
     var: win_install_args
 
-#- name: Install downloaded agent
-#  win_package:
-#    path: "{{ download_msi_result.dest }}"
-#    arguments: "{{ win_install_args }}"
-#  register: datadog_agent_install
-#  when: (not datadog_skip_install) and (not ansible_check_mode)
+- name: Install downloaded agent
+  win_package:
+    path: "{{ download_msi_result.dest }}"
+    arguments: "{{ win_install_args }}"
+  register: datadog_agent_install
+  when: (not datadog_skip_install) and (not ansible_check_mode)
 
-##- name: Delete temporary msi
-#  win_file:
-#    path: "{{ download_msi_result.dest }}"
-#    state: absent
-#  when: (not datadog_skip_install) and (not ansible_check_mode) and (download_msi_result.status_code == 200)
+- name: Delete temporary msi
+  win_file:
+    path: "{{ download_msi_result.dest }}"
+    state: absent
+  when: (not datadog_skip_install) and (not ansible_check_mode) and (download_msi_result.status_code == 200)
