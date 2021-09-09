@@ -145,9 +145,8 @@ datadog_windows_config_files_dir: ""
 # Default configuration root.  Do not modify
 datadog_windows_config_root: "{{ ansible_facts.env['ProgramData'] }}\\Datadog"
 
-# do not modify.  Default empty value for constructing the list of optional
-# arguments to supply to the windows installer.
-win_install_args: " "
+# do not modify.  Default empty list of optional arguments to supply to the windows installer.
+win_install_args: []
 
 
 #

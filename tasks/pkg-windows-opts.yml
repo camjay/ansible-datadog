@@ -1,15 +1,15 @@
 - name: Set DD Username Arg
   set_fact:
-    win_install_args: "{{ win_install_args }} DDAGENTUSER_NAME={{ datadog_windows_ddagentuser_name }}"
+    win_install_args: "{{ win_install_args }} + [ 'DDAGENTUSER_NAME={{ datadog_windows_ddagentuser_name }}' ]"
   when: datadog_windows_ddagentuser_name | default('', true) | length > 0
 
 - name: Set DD Password Arg
   set_fact:
-    win_install_args: "{{ win_install_args }} DDAGENTUSER_PASSWORD={{ datadog_windows_ddagentuser_password }}"
+    win_install_args: "{{ win_install_args }} + [ 'DAGENTUSER_PASSWORD={{ datadog_windows_ddagentuser_password }}' ]"
   when: datadog_windows_ddagentuser_password | default('', true) | length > 0
 
-# check the registry. On upgrade, the location of the config file root will 
-# be set here.  
+# check the registry. On upgrade, the location of the config file root will
+# be set here.
 - name: Check existing config file Directory
   win_reg_stat:
     path: HKLM:\SOFTWARE\Datadog\Datadog Agent
@@ -17,7 +17,7 @@
   register: config_root_from_registry
 
 # check the registry. On upgrade, the location of the installation root directory will
-# be set here.  
+# be set here.
 
 - name: Check existing installPath Directory
   win_reg_stat:
@@ -62,12 +62,12 @@
 
 - name: Set Program Files Target Directory
   set_fact:
-    win_install_args: "{{ win_install_args }} PROJECTLOCATION=\"{{ datadog_windows_program_files_dir }}\" "
+    win_install_args: "{{ win_install_args }} + [ 'PROJECTLOCATION=\"{{ datadog_windows_program_files_dir }}\"' ]"
   when: datadog_windows_program_files_dir | length > 0
 
 - name: Set Config Files Target Directory
   set_fact:
-    win_install_args: "{{ win_install_args }} APPLICATIONDATADIRECTORY=\"{{ datadog_windows_config_files_dir }}\" "
+    win_install_args: "{{ win_install_args }} + [ 'APPLICATIONDATADIRECTORY=\"{{ datadog_windows_config_files_dir }}\"' ] "
   when: datadog_windows_config_files_dir | length > 0
 
 # if the current installation was set to a non-standard config root, and that config root is not
@@ -83,12 +83,8 @@
     datadog_windows_config_root: "{{ config_root_from_registry.value | regex_replace('\\\\$','') }}"
   when: config_root_from_registry.exists
 
-- name: Set Test
-  set_fact:
-    win_install_args: "{{ win_install_args }}"
-
 # Add the installation arguments to install Windows NPM.
 - name: Set Windows NPM flag
   set_fact:
-    win_install_args: "{{ win_install_args }} ADDLOCAL=MainApplication,NPM"
+    win_install_args: "{{ win_install_args }} + [ 'ADDLOCAL=MainApplication,NPM' ]"
   when: datadog_sysprobe_enabled
