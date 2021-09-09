@@ -70,6 +70,11 @@
     win_install_args: "{{ win_install_args }} + [ 'APPLICATIONDATADIRECTORY=\"{{ datadog_windows_config_files_dir }}\"' ] "
   when: datadog_windows_config_files_dir | length > 0
 
+- name: Set API Key
+  set_fact:
+    win_install_args: "{{ win_install_args }} + [ 'APIKEY=\"{{ datadog_api_key }}\"' ] "
+  when: datadog_api_key | length > 0
+
 # if the current installation was set to a non-standard config root, and that config root is not
 # presented here, then update accordingly, so that any config file modifications will be made
 # in the right place

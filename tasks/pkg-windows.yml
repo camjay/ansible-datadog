@@ -31,6 +31,7 @@
 - name: Set windows NPM installed
   set_fact:
     datadog_sysprobe_enabled: "{{ network_config is defined and 'enabled' in (network_config | default({}, true)) and network_config['enabled'] }}"
+
 - include_tasks: pkg-windows-opts.yml
 
 - name: pre-Delete temporary msi
