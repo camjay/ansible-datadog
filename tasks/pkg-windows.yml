@@ -39,12 +39,12 @@
     state: absent
   when: not datadog_skip_install
 
-- name: Download windows datadog agent
-  win_get_url:
-    url: "{{ dd_download_url }}"
-    dest: '%TEMP%\ddagent.msi'
-  register: download_msi_result
-  when: (not datadog_skip_install) and (not ansible_check_mode)
+#- name: Download windows datadog agent
+#  win_get_url:
+#    url: "{{ dd_download_url }}"
+#    dest: '%TEMP%\ddagent.msi'
+#  register: download_msi_result
+#  when: (not datadog_skip_install) and (not ansible_check_mode)
 
 - name: Create Binary directory root (if not default)
   win_file:
