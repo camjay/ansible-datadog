@@ -72,6 +72,7 @@
     path: "{{ download_msi_result.dest }}"
     arguments: "{{ win_install_args }}"
   register: datadog_agent_install
+  become: yes
   when: (not datadog_skip_install) and (not ansible_check_mode)
 
 - name: Delete temporary msi
