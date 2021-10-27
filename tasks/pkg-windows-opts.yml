@@ -72,7 +72,7 @@
 
 - name: Set API Key
   set_fact:
-    win_install_args: "{{ win_install_args }} + [ '\"APIKEY={{ datadog_api_key }}\"' ] "
+    win_install_args: "{{ win_install_args }} + [ 'APIKEY=\"{{ datadog_api_key }}\"' ] "
   when: datadog_api_key | length > 0
 
 # if the current installation was set to a non-standard config root, and that config root is not
